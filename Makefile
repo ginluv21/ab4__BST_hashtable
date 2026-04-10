@@ -1,6 +1,6 @@
 gcc:
-	gcc main.c hashtab.c bstree.c -o 1
+	gcc main.c hashtab.c bstree.c -o demo.o 
 clean:
-	rm -f 1
+	rm -f demo.o
 run: gcc
-	./1
+	./demo.o
