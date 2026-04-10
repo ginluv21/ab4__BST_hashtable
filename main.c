@@ -61,23 +61,26 @@ void experiment1_bst_vs_hash()
         current_n = n;
 
         double t_start = wtime();
-        for (int k = 0; k < 100000; k++) {
+        for (int k = 0; k < 1; k++) {
             char *key = words[rand() % n];
             dummy += (bstree_lookup(tree, key) != NULL);
         }
-        double bst_time = (wtime() - t_start) / 100000.0;
+        double bst_time = (wtime() - t_start) / 1.0;
 
         t_start = wtime();
-        for (int k = 0; k < 100000; k++) {
+        for (int k = 0; k < 1; k++) {
             char *key = words[rand() % n];
             dummy += (hashtab_lookup(ht, key, ELFHash) != NULL);
         }
-        double hash_time = (wtime() - t_start) / 100000.0;
+        double hash_time = (wtime() - t_start) / 1.0;
 
         printf("%-3d | %-16d | %-19.8f | %.8f\n",
                step++, n, bst_time, hash_time);
     }
     printf("------------------------------------------------------------------------\n");
+
+    bstree_free(tree);
+    hashtab_free(ht);
 }
 
 /* ========================================================================= */
@@ -110,21 +113,21 @@ void experiment2_add_bst_vs_hash()
 
         /* 🔥 ИСПРАВЛЕННЫЙ ЗАМЕР BST */
         double t_start = wtime();
-        for (int k = 0; k < 100000; k++) {
+        for (int k = 0; k < 1; k++) {
             char *key = words[rand() % n];
             bstree_add(tree, key, k);
             dummy++;
         }
-        double bst_time = (wtime() - t_start) / 100000.0;
+        double bst_time = (wtime() - t_start) / 1.0;
 
         /* 🔥 ИСПРАВЛЕННЫЙ ЗАМЕР HASH */
         t_start = wtime();
-        for (int k = 0; k < 100000; k++) {
+        for (int k = 0; k < 1; k++) {
             char *key = words[rand() % n];
             hashtab_add(ht, key, k, ELFHash);
             dummy++;
         }
-        double hash_time = (wtime() - t_start) / 100000.0;
+        double hash_time = (wtime() - t_start) / 1.0;
 
         /* добавляем реальный элемент */
         char *new_key = words[n - 1];
@@ -142,6 +145,9 @@ void experiment2_add_bst_vs_hash()
                step++, n, bst_time, hash_time);
     }
     printf("------------------------------------------------------------------------\n");
+
+    bstree_free(tree);
+    hashtab_free(ht);
 }
 
 /* ========================================================================= */
@@ -172,18 +178,18 @@ void experiment6_collisions()
         current_n = n;
 
         double t_start = wtime();
-        for (int k = 0; k < 100000; k++) {
+        for (int k = 0; k < 1; k++) {
             char *key = words[rand() % n];
             dummy += (hashtab_lookup(ht_kr, key, KRHash) != NULL);
         }
-        double kr_time = (wtime() - t_start) / 100000.0;
+        double kr_time = (wtime() - t_start) / 1.0;
 
         t_start = wtime();
-        for (int k = 0; k < 100000; k++) {
+        for (int k = 0; k < 1; k++) {
             char *key = words[rand() % n];
             dummy += (hashtab_lookup(ht_elf, key, ELFHash) != NULL);
         }
-        double elf_time = (wtime() - t_start) / 100000.0;
+        double elf_time = (wtime() - t_start) / 1.0;
 
         int kr_col = hashtab_collisions(ht_kr);
         int elf_col = hashtab_collisions(ht_elf);
@@ -192,6 +198,9 @@ void experiment6_collisions()
                step++, n, kr_time, kr_col, elf_time, elf_col);
     }
     printf("+-----+--------+------------+---------------+------------+---------------+\n");
+
+    hashtab_free(ht_kr);
+    hashtab_free(ht_elf);
 }
 
 /* ========================================================================= */
