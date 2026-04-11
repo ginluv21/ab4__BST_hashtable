@@ -3,18 +3,14 @@
 #include <string.h>
 #include "hashtab.h"
 
-/* 1. Хеш-функция Кернигана-Ричи (KR / BKDR) */
-unsigned int KRHash(char *s)
-{
+unsigned int KRHash(char *s){
     unsigned int h = 0, hash_mul = 31;
     while (*s)
         h = h * hash_mul + (unsigned int)*s++;
     return h % HASH_SIZE;
 }
 
-/* 2. Хеш-функция ELF */
-unsigned int ELFHash(char *s)
-{
+unsigned int ELFHash(char *s){
     unsigned int h = 0, g;
     while (*s) {
         h = (h << 4) + (unsigned int)*s++;
@@ -26,21 +22,17 @@ unsigned int ELFHash(char *s)
     return h % HASH_SIZE;
 }
 
-/* 3. Инициализация таблицы */
-void hashtab_init(struct listnode **hashtab)
-{
+void hashtab_init(struct listnode **hashtab){
     for (int i = 0; i < HASH_SIZE; i++)
         hashtab[i] = NULL;
 }
 
-/* 4. Добавление (метод цепочек, вставка в начало) */
 void hashtab_add(struct listnode **hashtab, char *key, uint32_t value,
                  unsigned int (*hash_func)(char *))
 {
     unsigned int index = hash_func(key);
     struct listnode *node;
 
-    /* Если ключ уже есть — обновляем значение */
     for (node = hashtab[index]; node != NULL; node = node->next) {
         if (strcmp(node->key, key) == 0) {
             node->value = value;
@@ -48,7 +40,6 @@ void hashtab_add(struct listnode **hashtab, char *key, uint32_t value,
         }
     }
 
-    /* Нового узла нет — создаём */
     node = (struct listnode *)malloc(sizeof(struct listnode));
     if (node != NULL) {
         node->key   = strdup(key);
@@ -58,7 +49,6 @@ void hashtab_add(struct listnode **hashtab, char *key, uint32_t value,
     }
 }
 
-/* 5. Поиск */
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key,
                                 unsigned int (*hash_func)(char *))
 {
@@ -71,7 +61,6 @@ struct listnode *hashtab_lookup(struct listnode **hashtab, char *key,
     return NULL;
 }
 
-/* 6. Удаление */
 void hashtab_delete(struct listnode **hashtab, char *key,
                     unsigned int (*hash_func)(char *))
 {
@@ -94,16 +83,7 @@ void hashtab_delete(struct listnode **hashtab, char *key,
     }
 }
 
-/*
- * 7. Подсчёт коллизий.
- *
- * «Коллизия» = элемент, который попал в ячейку, где уже был хотя бы один
- * другой элемент. Формально: для каждой ячейки с цепочкой длины L коллизий
- * в ней (L - 1), т.к. первый элемент занял пустую ячейку без столкновения.
- * Возвращает суммарное число коллизий по всей таблице.
- */
-int hashtab_collisions(struct listnode **hashtab)
-{
+int hashtab_collisions(struct listnode **hashtab){
     int collisions = 0;
 
     for (int i = 0; i < HASH_SIZE; i++) {
@@ -119,8 +99,7 @@ int hashtab_collisions(struct listnode **hashtab)
     return collisions;
 }
 
-void hashtab_free(struct listnode **hashtab)
-{
+void hashtab_free(struct listnode **hashtab){
     for (int i = 0; i < HASH_SIZE; i++) {
         struct listnode *node = hashtab[i];
         while (node != NULL) {
@@ -132,8 +111,7 @@ void hashtab_free(struct listnode **hashtab)
     }
 }
 
-unsigned int DJB2Hash(char *str)
-{
+unsigned int DJB2Hash(char *str){
     unsigned int hash = 5381;
     int c;
 

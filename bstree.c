@@ -68,8 +68,7 @@ struct bstree *bstree_max(struct bstree *tree) {
     return tree;
 }
 
-struct bstree *bstree_delete(struct bstree *root, char *key)
-{
+struct bstree *bstree_delete(struct bstree *root, char *key) {
     if (root == NULL)
         return NULL;
 

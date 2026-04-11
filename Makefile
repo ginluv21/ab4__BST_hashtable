@@ -1,6 +1,6 @@
 gcc:
-	gcc -g main.c hashtab.c bstree.c -o demo.o 
+	gcc -g main1.c hashtab.c bstree.c -o demo.o 
 clean:
 	rm -f demo.o
 run: gcc
-	./demo.o
+	leaks --atExit -- ./demo.o

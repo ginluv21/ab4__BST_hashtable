@@ -143,5 +143,10 @@ int main()
     print_sep();
     printf("=== ГОТОВО ===\n");
 
+
+    bstree_free(tree);
+    bstree_free(min);
+    bstree_free(max);
+    hashtab_free(ht);
     return 0;
 }
