@@ -145,8 +145,6 @@ int main()
 
 
     bstree_free(tree);
-    bstree_free(min);
-    bstree_free(max);
     hashtab_free(ht);
     return 0;
 }

@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdio.h>
 
-#define HASH_SIZE 400000
+#define HASH_SIZE 20000
 
 struct listnode {
     char *key;
