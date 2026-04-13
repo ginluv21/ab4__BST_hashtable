@@ -178,18 +178,18 @@ void experiment6_collisions()
         current_n = n;
 
         double t_start = wtime();
-        for (int k = 0; k < 1; k++) {
+        for (int k = 0; k < 100000; k++) {
             char *key = words[rand() % n];
             dummy += (hashtab_lookup(ht_kr, key, KRHash) != NULL);
         }
-        double kr_time = (wtime() - t_start) / 1.0;
+        double kr_time = (wtime() - t_start) / 100000.0;
 
         t_start = wtime();
-        for (int k = 0; k < 1; k++) {
+        for (int k = 0; k < 100000; k++) {
             char *key = words[rand() % n];
             dummy += (hashtab_lookup(ht_elf, key, ELFHash) != NULL);
         }
-        double elf_time = (wtime() - t_start) / 1.0;
+        double elf_time = (wtime() - t_start) / 100000.0;
 
         int kr_col = hashtab_collisions(ht_kr);
         int elf_col = hashtab_collisions(ht_elf);
@@ -218,8 +218,8 @@ int main()
 
     printf("Успешно загружено %d слов.\n\n", count);
 
-    experiment1_bst_vs_hash();
-    experiment2_add_bst_vs_hash();
+    //experiment1_bst_vs_hash();
+    //experiment2_add_bst_vs_hash();
     experiment6_collisions();
 
     for (int i = 0; i < count; i++)
